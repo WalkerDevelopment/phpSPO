@@ -77,6 +77,9 @@ class ODataRequest extends ClientRequest
         } else if($resultObject instanceof IEntityType) {
             $this->getSerializationContext()->map($payload,$resultObject);
             $this->getCurrentAction()->getResourcePath()->ServerObjectIsNull = false;
+            if (is_null($this->getCurrentAction()->getQueryOptions())) {
+                return;
+            }
             if (method_exists($this->getCurrentAction()->getQueryOptions(), 'checkNext')) {
                 $this->getCurrentAction()->getQueryOptions()->checkNext($payload);
             }
